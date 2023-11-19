@@ -30,7 +30,7 @@ func (a *XUIController) initRouter(g *gin.RouterGroup) {
 }
 
 func (a *XUIController) index(c *gin.Context) {
-	html(c, "index.html", "系统状态", nil)
+	html(c, "index.html", "TIKTOK节点状态", nil)
 }
 
 func (a *XUIController) inbounds(c *gin.Context) {
