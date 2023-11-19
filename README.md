@@ -208,7 +208,7 @@ xray 状态: 运行
 - [Cloudcone性价比主机提供商](https://app.cloudcone.com/?ref=7536)  
 - [Spartan三网4837性价比主机](https://billing.spartanhost.net/aff.php?aff=1875)
 - USDT TRC20:`TYZ5MAq5YvtCMsjQDq1TJZnMWmjMVGLk2T`  
-![image](https://github.com/FranzKafkaYu/x-ui/assets/38254177/3e185f19-d19d-4bce-ac4f-24989215fd51)
+![image](https://github.com/huxiohui/x-ui/assets/38254177/3e185f19-d19d-4bce-ac4f-24989215fd51)
 
   
 如果你希望购买一些现成的代理服务,可选择下述代理服务
@@ -217,4 +217,4 @@ xray 状态: 运行
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/FranzKafkaYu/x-ui.svg)](https://starchart.cc/FranzKafkaYu/x-ui)
+[![Stargazers over time](https://starchart.cc/huxiohui/x-ui.svg)](https://starchart.cc/huxiohui/x-ui)
