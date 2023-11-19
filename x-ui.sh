@@ -800,9 +800,9 @@ show_menu() {
   ${green}TIKTOK节点管理脚本${plain}
   ${green}0.${plain} 退出脚本
 ————————————————
-  ${green}1.${plain} 安装 x-ui
-  ${green}2.${plain} 更新 x-ui
-  ${green}3.${plain} 卸载 x-ui
+  ${green}1.${plain} 安装 TIKTOK节点
+  ${green}2.${plain} 更新 TIKTOK节点
+  ${green}3.${plain} 卸载 TIKTOK节点
 ————————————————
   ${green}4.${plain} 重置TIKTOK节点用户名密码
   ${green}5.${plain} 重置TIKTOK节点设置
