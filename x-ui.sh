@@ -90,7 +90,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启面板，重启面板也会重启 xray" "y"
+    confirm "是否TIKTOK节点面板，重启TIKTOK节点也会重启 xray" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -197,7 +197,7 @@ set_port() {
         before_show_menu
     else
         /usr/local/x-ui/x-ui setting -port ${port}
-        echo -e "设置端口完毕，现在请重启面板，并使用新设置的端口 ${green}${port}${plain} 访问面板"
+        echo -e "设置端口完毕，现在请重启TIKTOK节点，并使用新设置的端口 ${green}${port}${plain} 访问TIKTOK节点"
         confirm_restart
     fi
 }
@@ -206,7 +206,7 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        LOGI "面板已运行，无需再次启动，如需重启请选择重启"
+        LOGI "TIKTOK节点已运行，无需再次启动，如需重启请选择重启"
     else
         systemctl start x-ui
         sleep 2
@@ -214,7 +214,7 @@ start() {
         if [[ $? == 0 ]]; then
             LOGI "x-ui 启动成功"
         else
-            LOGE "面板启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
+            LOGE "TIKTOK节点启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
         fi
     fi
 
@@ -235,7 +235,7 @@ stop() {
         if [[ $? == 1 ]]; then
             LOGI "x-ui 与 xray 停止成功"
         else
-            LOGE "面板停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息"
+            LOGE "TIKTOK节点停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息"
         fi
     fi
 
@@ -251,7 +251,7 @@ restart() {
     if [[ $? == 0 ]]; then
         LOGI "x-ui 与 xray 重启成功"
     else
-        LOGE "面板重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
+        LOGE "TIKTOK节点重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -349,7 +349,7 @@ check_uninstall() {
     check_status
     if [[ $? != 2 ]]; then
         echo ""
-        LOGE "面板已安装，请不要重复安装"
+        LOGE "TIKTOK节点已安装，请不要重复安装"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -363,7 +363,7 @@ check_install() {
     check_status
     if [[ $? == 2 ]]; then
         echo ""
-        LOGE "请先安装面板"
+        LOGE "请先安装TIKTOK节点"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -377,15 +377,15 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "面板状态: ${green}已运行${plain}"
+        echo -e "TIKTOK节点状态: ${green}已运行${plain}"
         show_enable_status
         ;;
     1)
-        echo -e "面板状态: ${yellow}未运行${plain}"
+        echo -e "TIKTOK节点状态: ${yellow}未运行${plain}"
         show_enable_status
         ;;
     2)
-        echo -e "面板状态: ${red}未安装${plain}"
+        echo -e "TIKTOK节点状态: ${red}未安装${plain}"
         ;;
     esac
     show_xray_status
@@ -775,55 +775,55 @@ disable_auto_clear_log() {
 }
 
 show_usage() {
-    echo "x-ui 管理脚本使用方法: "
+    echo "TIKTOK节点管理脚本使用方法: "
     echo "------------------------------------------"
     echo "x-ui              - 显示管理菜单 (功能更多)"
-    echo "x-ui start        - 启动 x-ui 面板"
-    echo "x-ui stop         - 停止 x-ui 面板"
-    echo "x-ui restart      - 重启 x-ui 面板"
-    echo "x-ui status       - 查看 x-ui 状态"
-    echo "x-ui enable       - 设置 x-ui 开机自启"
-    echo "x-ui disable      - 取消 x-ui 开机自启"
-    echo "x-ui log          - 查看 x-ui 日志"
-    echo "x-ui v2-ui        - 迁移本机器的 v2-ui 账号数据至 x-ui"
-    echo "x-ui update       - 更新 x-ui 面板"
-    echo "x-ui install      - 安装 x-ui 面板"
-    echo "x-ui uninstall    - 卸载 x-ui 面板"
-    echo "x-ui clear        - 清除 x-ui 日志"
-    echo "x-ui geo          - 更新 x-ui geo数据"
-    echo "x-ui cron         - 配置 x-ui 定时任务"
+    echo "x-ui start        - 启动 TIKTOK节点"
+    echo "x-ui stop         - 停止 TIKTOK节点"
+    echo "x-ui restart      - 重启 TIKTOK节点"
+    echo "x-ui status       - 查看 TIKTOK节点"
+    echo "x-ui enable       - 设置 TIKTOK节点开机自启"
+    echo "x-ui disable      - 取消 TIKTOK节点开机自启"
+    echo "x-ui log          - 查看 TIKTOK节点日志"
+    echo "x-ui v2-ui        - 迁移本机器的 v2-ui 账号数据至 TIKTOK节点"
+    echo "x-ui update       - 更新 TIKTOK节点"
+    echo "x-ui install      - 安装 TIKTOK节点"
+    echo "x-ui uninstall    - 卸载 TIKTOK节点"
+    echo "x-ui clear        - 清除 TIKTOK节点"
+    echo "x-ui geo          - 更新 TIKTOK节点geo数据"
+    echo "x-ui cron         - 配置 TIKTOK节点定时任务"
     echo "------------------------------------------"
 }
 
 show_menu() {
     echo -e "
-  ${green}x-ui 面板管理脚本${plain}
+  ${green}TIKTOK节点管理脚本${plain}
   ${green}0.${plain} 退出脚本
 ————————————————
   ${green}1.${plain} 安装 x-ui
   ${green}2.${plain} 更新 x-ui
   ${green}3.${plain} 卸载 x-ui
 ————————————————
-  ${green}4.${plain} 重置用户名密码
-  ${green}5.${plain} 重置面板设置
-  ${green}6.${plain} 设置面板端口
-  ${green}7.${plain} 查看当前面板信息
+  ${green}4.${plain} 重置TIKTOK节点用户名密码
+  ${green}5.${plain} 重置TIKTOK节点设置
+  ${green}6.${plain} 设置TIKTOK节点端口
+  ${green}7.${plain} 查看当前TIKTOK节点信息
 ————————————————
-  ${green}8.${plain} 启动 x-ui
-  ${green}9.${plain} 停止 x-ui
-  ${green}10.${plain} 重启 x-ui
-  ${green}11.${plain} 查看 x-ui 状态
-  ${green}12.${plain} 查看 x-ui 日志
+  ${green}8.${plain} 启动 TIKTOK节点
+  ${green}9.${plain} 停止 TIKTOK节点
+  ${green}10.${plain} 重启 TIKTOK节点
+  ${green}11.${plain} 查看 TIKTOK节点 状态
+  ${green}12.${plain} 查看 TIKTOK节点 日志
 ————————————————
-  ${green}13.${plain} 设置 x-ui 开机自启
-  ${green}14.${plain} 取消 x-ui 开机自启
+  ${green}13.${plain} 设置 TIKTOK节点 开机自启
+  ${green}14.${plain} 取消 TIKTOK节点 开机自启
 ————————————————
   ${green}15.${plain} 一键安装 bbr (最新内核)
   ${green}16.${plain} 一键申请SSL证书(acme申请)
   ${green}17.${plain} 配置x-ui定时任务
  "
     show_status
-    echo && read -p "请输入选择 [0-17],查看面板登录信息请输入数字7:" num
+    echo && read -p "请输入选择 [0-17],查看TIKTOK节点登录信息请输入数字7:" num
 
     case "${num}" in
     0)
@@ -881,7 +881,7 @@ show_menu() {
         check_install && cron_jobs
         ;;
     *)
-        LOGE "请输入正确的数字 [0-17],查看面板登录信息请输入数字7"
+        LOGE "请输入正确的数字 [0-17],查看TIKTOK节点登录信息请输入数字7"
         ;;
     esac
 }
