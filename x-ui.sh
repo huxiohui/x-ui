@@ -1,84 +1,84 @@
 #!/bin/bash
 
- 红色的= '\033[0;31m'
- 绿色的= '\033[0;32m'
- 黄色的= '\033[0;33m'
- 简单的= '\033[0m'
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+plain='\033[0m'
 
-#进行日志检查和清理,单位:m
- 宣布       -r  DEFAULT_LOG_FILE_DELETE_TRIGGER = 35    -r  DEFAULT_LOG_FILE_DELETE_TRIGGER = 35
+#consts for log check and clear,unit:M
+declare -r DEFAULT_LOG_FILE_DELETE_TRIGGER=35
 
-#全球环境展望更新项目
- PATH_FOR_GEO_IPPATH_FOR_GEO_IP = '/usr/local/x-ui/bin/geoip.dat'   '/usr/local/x-ui/bin/geoip.dat'
- PATH_FOR_CONFIGPATH_FOR_CONFIG = '/usr/local/x-ui/bin/config.json'  '/usr/local/x-ui/bin/config.json'
- PATH_FOR_GEO_SITEPATH_FOR_GEO_SITE = '/usr/local/x-ui/bin/geosite.dat' '/usr/local/x-ui/bin/geosite.dat'
-//吉图布.com/卢亚尔士兵/V2-规则-日期/发布/最新/下载/地理信息。
-//吉图布.com/洛亚尔士兵/V2-规则-日期/发布/最新/下载/地球。
+# consts for geo update
+PATH_FOR_GEO_IP='/usr/local/x-ui/bin/geoip.dat'
+PATH_FOR_CONFIG='/usr/local/x-ui/bin/config.json'
+PATH_FOR_GEO_SITE='/usr/local/x-ui/bin/geosite.dat'
+URL_FOR_GEO_IP='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat'
+URL_FOR_GEO_SITE='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat'
 
-#在这里添加一些基本功能
-职能日志d(){
-    回声     -e      " ${yellow} [DEG] $* ${plain} " -e " ${yellow} [DEG] $* ${plain} "                   
+#Add some basic function here
+function LOGD() {
+    echo -e "${yellow}[DEG] $* ${plain}"
 }
 
-功能湖(){
-    回声 -e      " ${red} [ERR] $* ${plain} " -e " ${red} [ERR] $* ${plain} "                      
+function LOGE() {
+    echo -e "${red}[ERR] $* ${plain}"
 }
 
-职能日志一(){
-    echo        -e        " ${green} [INF] $* ${plain} "       
+function LOGI() {
+    echo -e "${green}[INF] $* ${plain}"
 }
-#检查根
- [[  尤伊德元        - 东北        0 ]] && LOGE "错误:  必须使用root用户运行此脚本!\n" && 出口        1
+# check root
+[[ $EUID -ne 0 ]] && LOGE "错误:  必须使用root用户运行此脚本!\n" && exit 1
 
-#检查操作系统
- 如果 [[        -F /etc/redhat-release ]]; 然后
-     释放 = "centos"
- 伊利夫 cat /etc/issue | grep        --     -- 经济发展委员会      "debian" ; 然后
-     释放 = "debian"
- 伊利夫 cat /etc/issue | grep     --  -- 经济发展委员会   "ubuntu" ; 然后
-     释放 = "ubuntu"
- 伊利夫 cat /etc/issue | grep    --  -- 经济发展委员会    "红帽" ; 然后
-     释放 = "centos"
- 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会    "debian" ; 然后
-     释放 = "debian"
- 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会    "ubuntu" ; 然后
-     释放 = "ubuntu"
- 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会   "红帽" ; 然后
-     释放 = "centos"
-其他的
-    LOGE   "未检测到系统版本，请联系脚本作者！\n" && 出口   1  "未检测到系统版本，请联系脚本作者！\n" && 出口   1
-菲
+# check os
+if [[ -f /etc/redhat-release ]]; then
+    release="centos"
+elif cat /etc/issue | grep -Eqi "debian"; then
+    release="debian"
+elif cat /etc/issue | grep -Eqi "ubuntu"; then
+    release="ubuntu"
+elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
+    release="centos"
+elif cat /proc/version | grep -Eqi "debian"; then
+    release="debian"
+elif cat /proc/version | grep -Eqi "ubuntu"; then
+    release="ubuntu"
+elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
+    release="centos"
+else
+    LOGE "未检测到系统版本，请联系脚本作者！\n" && exit 1
+fi
 
- 奥斯丁版本= ""
+os_version=""
 
-#操作系统版本
- 如果 [[   -F /etc/os-release ]]; 然后
-     奥斯丁版本 =$(awk -F  '[= ."]'   '/VERSION_ID/{print $3}' /等/解除监督) 奥斯丁版本 =$(awk -F '[= ."]'  '/VERSION_ID/{print $3}' /等/解除监督)
-菲
- 如果 [[  -z  " $ " && -F /etc/lsb-release ]]; 然后
-     奥斯丁版本 =$(awk -F '[= ."]+'  '/DISTRIB_RELEASE/{print $2}' /等/lsb释放)
-菲
+# os version
+if [[ -f /etc/os-release ]]; then
+    os_version=$(awk -F'[= ."]' '/VERSION_ID/{print $3}' /etc/os-release)
+fi
+if [[ -z "$os_version" && -f /etc/lsb-release ]]; then
+    os_version=$(awk -F'[= ."]+' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release)
+fi
 
- 如果 [[ x " ${release} " == x "centos" ]]; 然后
-     如果 [[ ${os_version}  -勒  6 ]]; 然后
-        LOGE  "请使用 CentOS 7 或更高版本的系统！\n" && 出口  1
-    菲
- 伊利夫 [[ x " ${release} " == x "ubuntu" ]]; 然后
-    if [[ ${os_version} -lt 16 ]]; thenif [[ ${os_version} -lt 16 ]]; then
-        LOGE "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1"请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
-    菲fi
-elifelif [[ x"${release}" == x"debian" ]]; then"${release}" == x"debian" ]]; then
-    if [[ ${os_version} -lt 8 ]]; thenif [[ ${os_version} -lt 8 ]]; then
-        LOGE "请使用 Debian 8 或更高版本的系统！\n" && exit 1"请使用 Debian 8 或更高版本的系统！\n" && exit 1
-    菲fi
+if [[ x"${release}" == x"centos" ]]; then
+    if [[ ${os_version} -le 6 ]]; then
+        LOGE "请使用 CentOS 7 或更高版本的系统！\n" && exit 1
+    fi
+elif [[ x"${release}" == x"ubuntu" ]]; then
+    if [[ ${os_version} -lt 16 ]]; then
+        LOGE "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
+    fi
+elif [[ x"${release}" == x"debian" ]]; then
+    if [[ ${os_version} -lt 8 ]]; then
+        LOGE "请使用 Debian 8 或更高版本的系统！\n" && exit 1
+    fi
 fi
 
 confirm() {
-    if [[ $# > 1 ]]; thenif [[ $# > 1 ]]; then
-        echo && read -p "$1 [默认$2]: " temp-p "$1 [默认$2]: " temp
-        if [[ x"${temp}" == x"" ]]; thenif [[ x"${temp}" == x"" ]]; then
-            temp=$2temp=$2
-        菲fi
+    if [[ $# > 1 ]]; then
+        echo && read -p "$1 [默认$2]: " temp
+        if [[ x"${temp}" == x"" ]]; then
+            temp=$2
+        fi
     else
         read -p "$1 [y/n]: " temp
     fi
@@ -90,7 +90,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启TIKTOK节点，重启TIKTOK节点也会重启 xray" "y"
+    confirm "是否重启面板，重启面板也会重启 xray" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -104,7 +104,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/huxiohui/x-ui/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -123,9 +123,9 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/huxiohui/x-ui/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh)
     if [[ $? == 0 ]]; then
-        LOGI "更新完成，已自动重启TIKTOK节点 "
+        LOGI "更新完成，已自动重启面板 "
         exit 0
     fi
 }
@@ -164,12 +164,12 @@ reset_user() {
         return 0
     fi
     /usr/local/x-ui/x-ui setting -username admin -password admin
-    echo -e "用户名和密码已重置为 ${green}admin${plain}，现在请重启TIKTOK节点"
+    echo -e "用户名和密码已重置为 ${green}admin${plain}，现在请重启面板"
     confirm_restart
 }
 
 reset_config() {
-    confirm "确定要重置所有TIKTOK节点设置吗，账号数据不会丢失，用户名和密码不会改变" "n"
+    confirm "确定要重置所有面板设置吗，账号数据不会丢失，用户名和密码不会改变" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -177,7 +177,7 @@ reset_config() {
         return 0
     fi
     /usr/local/x-ui/x-ui setting -reset
-    echo -e "所有TIKTOK节点设置已重置为默认值，现在请重启面板，并使用默认的 ${green}54321${plain} 端口访问TIKTOK节点"
+    echo -e "所有面板设置已重置为默认值，现在请重启面板，并使用默认的 ${green}54321${plain} 端口访问面板"
     confirm_restart
 }
 
@@ -197,7 +197,7 @@ set_port() {
         before_show_menu
     else
         /usr/local/x-ui/x-ui setting -port ${port}
-        echo -e "设置端口完毕，现在请重启TIKTOK节点，并使用新设置的端口 ${green}${port}${plain} 访问TIKTOK节点"
+        echo -e "设置端口完毕，现在请重启面板，并使用新设置的端口 ${green}${port}${plain} 访问面板"
         confirm_restart
     fi
 }
@@ -206,7 +206,7 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        LOGI "TIKTOK节点已运行，无需再次启动，如需重启请选择重启"
+        LOGI "面板已运行，无需再次启动，如需重启请选择重启"
     else
         systemctl start x-ui
         sleep 2
@@ -214,7 +214,7 @@ start() {
         if [[ $? == 0 ]]; then
             LOGI "x-ui 启动成功"
         else
-            LOGE "TIKTOK节点启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
+            LOGE "面板启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
         fi
     fi
 
@@ -227,7 +227,7 @@ stop() {
     check_status
     if [[ $? == 1 ]]; then
         echo ""
-        LOGI "TIKTOK节点已停止，无需再次停止"
+        LOGI "面板已停止，无需再次停止"
     else
         systemctl stop x-ui
         sleep 2
@@ -235,7 +235,7 @@ stop() {
         if [[ $? == 1 ]]; then
             LOGI "x-ui 与 xray 停止成功"
         else
-            LOGE "TIKTOK节点停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息"
+            LOGE "面板停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息"
         fi
     fi
 
@@ -251,7 +251,7 @@ restart() {
     if [[ $? == 0 ]]; then
         LOGI "x-ui 与 xray 重启成功"
     else
-        LOGE "TIKTOK节点重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
+        LOGE "面板重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息"
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -349,7 +349,7 @@ check_uninstall() {
     check_status
     if [[ $? != 2 ]]; then
         echo ""
-        LOGE "TIKTOK节点已安装，请不要重复安装"
+        LOGE "面板已安装，请不要重复安装"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -377,15 +377,15 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "TIKTOK节点状态: ${green}已运行${plain}"
+        echo -e "面板状态: ${green}已运行${plain}"
         show_enable_status
         ;;
     1)
-        echo -e "TIKTOK节点状态: ${yellow}未运行${plain}"
+        echo -e "面板状态: ${yellow}未运行${plain}"
         show_enable_status
         ;;
     2)
-        echo -e "TIKTOK节点状态: ${red}未安装${plain}"
+        echo -e "面板状态: ${red}未安装${plain}"
         ;;
     esac
     show_xray_status
@@ -775,55 +775,55 @@ disable_auto_clear_log() {
 }
 
 show_usage() {
-    echo "TIKTOK节点管理脚本使用方法: "
+    echo "x-ui 管理脚本使用方法: "
     echo "------------------------------------------"
     echo "x-ui              - 显示管理菜单 (功能更多)"
-    echo "x-ui start        - 启动 TIKTOK节点"
-    echo "x-ui stop         - 停止 TIKTOK节点"
-    echo "x-ui restart      - 重启 TIKTOK节点"
-    echo "x-ui status       - 查看 TIKTOK节点 状态"
-    echo "x-ui enable       - 设置 TIKTOK节点 开机自启"
-    echo "x-ui disable      - 取消 TIKTOK节点 开机自启"
-    echo "x-ui log          - 查看 TIKTOK节点 日志"
-    echo "x-ui v2-ui        - 迁移本机器的 v2-ui 账号数据至 TIKTOK节点"
-    echo "x-ui update       - 更新 TIKTOK节点 面板"
-    echo "x-ui install      - 安装 TIKTOK节点 面板"
-    echo "x-ui uninstall    - 卸载 TIKTOK节点 面板"
-    echo "x-ui clear        - 清除 TIKTOK节点 日志"
-    echo "x-ui geo          - 更新 TIKTOK节点 geo数据"
-    echo "x-ui cron         - 配置 TIKTOK节点 定时任务"
+    echo "x-ui start        - 启动 x-ui 面板"
+    echo "x-ui stop         - 停止 x-ui 面板"
+    echo "x-ui restart      - 重启 x-ui 面板"
+    echo "x-ui status       - 查看 x-ui 状态"
+    echo "x-ui enable       - 设置 x-ui 开机自启"
+    echo "x-ui disable      - 取消 x-ui 开机自启"
+    echo "x-ui log          - 查看 x-ui 日志"
+    echo "x-ui v2-ui        - 迁移本机器的 v2-ui 账号数据至 x-ui"
+    echo "x-ui update       - 更新 x-ui 面板"
+    echo "x-ui install      - 安装 x-ui 面板"
+    echo "x-ui uninstall    - 卸载 x-ui 面板"
+    echo "x-ui clear        - 清除 x-ui 日志"
+    echo "x-ui geo          - 更新 x-ui geo数据"
+    echo "x-ui cron         - 配置 x-ui 定时任务"
     echo "------------------------------------------"
 }
 
 show_menu() {
     echo -e "
-  ${green}TIKTOK节点后台管理脚本${plain}
+  ${green}x-ui 面板管理脚本${plain}
   ${green}0.${plain} 退出脚本
 ————————————————
-  ${green}1.${plain} 安装 TIKTOK节点
-  ${green}2.${plain} 更新 TIKTOK节点
-  ${green}3.${plain} 卸载 TIKTOK节点
+  ${green}1.${plain} 安装 x-ui
+  ${green}2.${plain} 更新 x-ui
+  ${green}3.${plain} 卸载 x-ui
 ————————————————
-  ${green}4.${plain} 重置TIKTOK节点用户名密码
-  ${green}5.${plain} 重置TIKTOK节点后台设置
-  ${green}6.${plain} 设置TIKTOK节点后台端口
-  ${green}7.${plain} 查看当前TIKTOK节点后台信息
+  ${green}4.${plain} 重置用户名密码
+  ${green}5.${plain} 重置面板设置
+  ${green}6.${plain} 设置面板端口
+  ${green}7.${plain} 查看当前面板信息
 ————————————————
-  ${green}8.${plain} 启动 TIKTOK节点
-  ${green}9.${plain} 停止 TIKTOK节点
-  ${green}10.${plain} 重启 TIKTOK节点
-  ${green}11.${plain} 查看 TIKTOK节点 状态
-  ${green}12.${plain} 查看 TIKTOK节点 日志
+  ${green}8.${plain} 启动 x-ui
+  ${green}9.${plain} 停止 x-ui
+  ${green}10.${plain} 重启 x-ui
+  ${green}11.${plain} 查看 x-ui 状态
+  ${green}12.${plain} 查看 x-ui 日志
 ————————————————
-  ${green}13.${plain} 设置 TIKTOK节点 开机自启
-  ${green}14.${plain} 取消 TIKTOK节点 开机自启
+  ${green}13.${plain} 设置 x-ui 开机自启
+  ${green}14.${plain} 取消 x-ui 开机自启
 ————————————————
   ${green}15.${plain} 一键安装 bbr (最新内核)
   ${green}16.${plain} 一键申请SSL证书(acme申请)
-  ${green}17.${plain} 配置TIKTOK节点定时任务
+  ${green}17.${plain} 配置x-ui定时任务
  "
     show_status
-    echo && read -p "请输入选择 [0-17],查看TIKTOK节点后台登录信息请输入数字7:" num
+    echo && read -p "请输入选择 [0-17],查看面板登录信息请输入数字7:" num
 
     case "${num}" in
     0)
@@ -881,7 +881,7 @@ show_menu() {
         check_install && cron_jobs
         ;;
     *)
-        LOGE "请输入正确的数字 [0-17],查看TIKTOK节点后台登录信息请输入数字7"
+        LOGE "请输入正确的数字 [0-17],查看面板登录信息请输入数字7"
         ;;
     esac
 }
