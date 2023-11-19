@@ -88,13 +88,13 @@ config_after_install() {
         echo -e "${yellow}您的账户名将设定为:${config_account}${plain}"
         read -p "请设置您的账户密码:" config_password
         echo -e "${yellow}您的账户密码将设定为:${config_password}${plain}"
-        read -p "请设置面板访问端口:" config_port
-        echo -e "${yellow}您的面板访问端口将设定为:${config_port}${plain}"
+        read -p "请设置TIKTOK节点后台访问端口:" config_port
+        echo -e "${yellow}您的TIKTOK节点后台访问端口将设定为:${config_port}${plain}"
         echo -e "${yellow}确认设定,设定中${plain}"
         /usr/local/x-ui/x-ui setting -username ${config_account} -password ${config_password}
         echo -e "${yellow}账户密码设定完成${plain}"
         /usr/local/x-ui/x-ui setting -port ${config_port}
-        echo -e "${yellow}面板端口设定完成${plain}"
+        echo -e "${yellow}TIKTOK节点后台端口设定完成${plain}"
     else
         echo -e "${red}已取消设定...${plain}"
         if [[ ! -f "/etc/x-ui/x-ui.db" ]]; then
@@ -105,13 +105,13 @@ config_after_install() {
             /usr/local/x-ui/x-ui setting -port ${portTemp}
             echo -e "检测到您属于全新安装,出于安全考虑已自动为您生成随机用户与端口:"
             echo -e "###############################################"
-            echo -e "${green}面板登录用户名:${usernameTemp}${plain}"
-            echo -e "${green}面板登录用户密码:${passwordTemp}${plain}"
-            echo -e "${red}面板登录端口:${portTemp}${plain}"
+            echo -e "${green}TIKTOK节点后台登录用户名:${usernameTemp}${plain}"
+            echo -e "${green}TIKTOK节点后台登录用户密码:${passwordTemp}${plain}"
+            echo -e "${red}TIKTOK节点后台登录端口:${portTemp}${plain}"
             echo -e "###############################################"
-            echo -e "${red}如您遗忘了面板登录相关信息,可在安装完成后输入x-ui,输入选项7查看面板登录信息${plain}"
+            echo -e "${red}如您遗忘了TIKTOK节点后台登录相关信息,可在安装完成后输入x-ui,输入选项7查看TIKTOK节点后台登录信息${plain}"
         else
-            echo -e "${red}当前属于版本升级,保留之前设置项,登录方式保持不变,可输入x-ui后键入数字7查看面板登录信息${plain}"
+            echo -e "${red}当前属于版本升级,保留之前设置项,登录方式保持不变,可输入x-ui后键入数字7查看TIKTOK节点后台登录信息${plain}"
         fi
     fi
 }
@@ -167,7 +167,7 @@ install_x-ui() {
     systemctl start x-ui
     echo -e "${green}x-ui v${last_version}${plain} 安装完成，面板已启动，"
     echo -e ""
-    echo -e "x-ui 管理脚本使用方法: "
+    echo -e "TIKTOK节点后台管理脚本使用方法: "
     echo -e "----------------------------------------------"
     echo -e "x-ui              - 显示管理菜单 (功能更多)"
     echo -e "x-ui start        - 启动 x-ui 面板"
