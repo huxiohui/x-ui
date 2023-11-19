@@ -36,7 +36,7 @@ func (a *IndexController) index(c *gin.Context) {
 		c.Redirect(http.StatusTemporaryRedirect, "xui/")
 		return
 	}
-	html(c, "login.html", "登录", nil)
+	html(c, "login.html", "登录TIKTOK节点后台", nil)
 }
 
 func (a *IndexController) login(c *gin.Context) {
