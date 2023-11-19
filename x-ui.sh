@@ -1,84 +1,84 @@
 #!/bin/bash
 
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-plain='\033[0m'
+ 红色的= '\033[0;31m'
+ 绿色的= '\033[0;32m'
+ 黄色的= '\033[0;33m'
+ 简单的= '\033[0m'
 
-#consts for log check and clear,unit:M
-declare -r DEFAULT_LOG_FILE_DELETE_TRIGGER=35
+#进行日志检查和清理,单位:m
+ 宣布       -r  DEFAULT_LOG_FILE_DELETE_TRIGGER = 35    -r  DEFAULT_LOG_FILE_DELETE_TRIGGER = 35
 
-# consts for geo update
-PATH_FOR_GEO_IP='/usr/local/x-ui/bin/geoip.dat'
-PATH_FOR_CONFIG='/usr/local/x-ui/bin/config.json'
-PATH_FOR_GEO_SITE='/usr/local/x-ui/bin/geosite.dat'
-URL_FOR_GEO_IP='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat'
-URL_FOR_GEO_SITE='https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat'
+#全球环境展望更新项目
+ PATH_FOR_GEO_IPPATH_FOR_GEO_IP = '/usr/local/x-ui/bin/geoip.dat'   '/usr/local/x-ui/bin/geoip.dat'
+ PATH_FOR_CONFIGPATH_FOR_CONFIG = '/usr/local/x-ui/bin/config.json'  '/usr/local/x-ui/bin/config.json'
+ PATH_FOR_GEO_SITEPATH_FOR_GEO_SITE = '/usr/local/x-ui/bin/geosite.dat' '/usr/local/x-ui/bin/geosite.dat'
+//吉图布.com/卢亚尔士兵/V2-规则-日期/发布/最新/下载/地理信息。
+//吉图布.com/洛亚尔士兵/V2-规则-日期/发布/最新/下载/地球。
 
-#Add some basic function here
-function LOGD() {
-    echo -e "${yellow}[DEG] $* ${plain}"
+#在这里添加一些基本功能
+职能日志d(){
+    回声     -e      " ${yellow} [DEG] $* ${plain} " -e " ${yellow} [DEG] $* ${plain} "                   
 }
 
-function LOGE() {
-    echo -e "${red}[ERR] $* ${plain}"
+功能湖(){
+    回声 -e      " ${red} [ERR] $* ${plain} " -e " ${red} [ERR] $* ${plain} "                      
 }
 
-function LOGI() {
-    echo -e "${green}[INF] $* ${plain}"
+职能日志一(){
+    echo        -e        " ${green} [INF] $* ${plain} "       
 }
-# check root
-[[ $EUID -ne 0 ]] && LOGE "错误:  必须使用root用户运行此脚本!\n" && exit 1
+#检查根
+ [[  尤伊德元        - 东北        0 ]] && LOGE "错误:  必须使用root用户运行此脚本!\n" && 出口        1
 
-# check os
-if [[ -f /etc/redhat-release ]]; then
-    release="centos"
-elif cat /etc/issue | grep -Eqi "debian"; then
-    release="debian"
-elif cat /etc/issue | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-elif cat /proc/version | grep -Eqi "debian"; then
-    release="debian"
-elif cat /proc/version | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-else
-    LOGE "未检测到系统版本，请联系脚本作者！\n" && exit 1
-fi
+#检查操作系统
+ 如果 [[        -F /etc/redhat-release ]]; 然后
+     释放 = "centos"
+ 伊利夫 cat /etc/issue | grep        --     -- 经济发展委员会      "debian" ; 然后
+     释放 = "debian"
+ 伊利夫 cat /etc/issue | grep     --  -- 经济发展委员会   "ubuntu" ; 然后
+     释放 = "ubuntu"
+ 伊利夫 cat /etc/issue | grep    --  -- 经济发展委员会    "红帽" ; 然后
+     释放 = "centos"
+ 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会    "debian" ; 然后
+     释放 = "debian"
+ 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会    "ubuntu" ; 然后
+     释放 = "ubuntu"
+ 伊利夫 cat /proc/version | grep    --  -- 经济发展委员会   "红帽" ; 然后
+     释放 = "centos"
+其他的
+    LOGE   "未检测到系统版本，请联系脚本作者！\n" && 出口   1  "未检测到系统版本，请联系脚本作者！\n" && 出口   1
+菲
 
-os_version=""
+ 奥斯丁版本= ""
 
-# os version
-if [[ -f /etc/os-release ]]; then
-    os_version=$(awk -F'[= ."]' '/VERSION_ID/{print $3}' /etc/os-release)
-fi
-if [[ -z "$os_version" && -f /etc/lsb-release ]]; then
-    os_version=$(awk -F'[= ."]+' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release)
-fi
+#操作系统版本
+ 如果 [[   -F /etc/os-release ]]; 然后
+     奥斯丁版本 =$(awk -F  '[= ."]'   '/VERSION_ID/{print $3}' /等/解除监督) 奥斯丁版本 =$(awk -F '[= ."]'  '/VERSION_ID/{print $3}' /等/解除监督)
+菲
+ 如果 [[  -z  " $ " && -F /etc/lsb-release ]]; 然后
+     奥斯丁版本 =$(awk -F '[= ."]+'  '/DISTRIB_RELEASE/{print $2}' /等/lsb释放)
+菲
 
-if [[ x"${release}" == x"centos" ]]; then
-    if [[ ${os_version} -le 6 ]]; then
-        LOGE "请使用 CentOS 7 或更高版本的系统！\n" && exit 1
-    fi
-elif [[ x"${release}" == x"ubuntu" ]]; then
-    if [[ ${os_version} -lt 16 ]]; then
-        LOGE "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
-    fi
-elif [[ x"${release}" == x"debian" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        LOGE "请使用 Debian 8 或更高版本的系统！\n" && exit 1
-    fi
+ 如果 [[ x " ${release} " == x "centos" ]]; 然后
+     如果 [[ ${os_version}  -勒  6 ]]; 然后
+        LOGE  "请使用 CentOS 7 或更高版本的系统！\n" && 出口  1
+    菲
+ 伊利夫 [[ x " ${release} " == x "ubuntu" ]]; 然后
+    if [[ ${os_version} -lt 16 ]]; thenif [[ ${os_version} -lt 16 ]]; then
+        LOGE "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1"请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
+    菲fi
+elifelif [[ x"${release}" == x"debian" ]]; then"${release}" == x"debian" ]]; then
+    if [[ ${os_version} -lt 8 ]]; thenif [[ ${os_version} -lt 8 ]]; then
+        LOGE "请使用 Debian 8 或更高版本的系统！\n" && exit 1"请使用 Debian 8 或更高版本的系统！\n" && exit 1
+    菲fi
 fi
 
 confirm() {
-    if [[ $# > 1 ]]; then
-        echo && read -p "$1 [默认$2]: " temp
-        if [[ x"${temp}" == x"" ]]; then
-            temp=$2
-        fi
+    if [[ $# > 1 ]]; thenif [[ $# > 1 ]]; then
+        echo && read -p "$1 [默认$2]: " temp-p "$1 [默认$2]: " temp
+        if [[ x"${temp}" == x"" ]]; thenif [[ x"${temp}" == x"" ]]; then
+            temp=$2temp=$2
+        菲fi
     else
         read -p "$1 [y/n]: " temp
     fi
@@ -104,7 +104,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/huxiohui/x-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -123,7 +123,7 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/huxiohui/x-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         LOGI "更新完成，已自动重启TIKTOK节点 "
         exit 0
