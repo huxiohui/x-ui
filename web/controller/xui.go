@@ -34,9 +34,9 @@ func (a *XUIController) index(c *gin.Context) {
 }
 
 func (a *XUIController) inbounds(c *gin.Context) {
-	html(c, "inbounds.html", "入站列表", nil)
+	html(c, "inbounds.html", "TIKTOK节点线路列表", nil)
 }
 
 func (a *XUIController) setting(c *gin.Context) {
-	html(c, "setting.html", "设置", nil)
+	html(c, "setting.html", "TIKTOK节点设置", nil)
 }
