@@ -84,5 +84,5 @@ func (a *SettingController) updateUser(c *gin.Context) {
 
 func (a *SettingController) restartPanel(c *gin.Context) {
 	err := a.panelService.RestartPanel(time.Second * 3)
-	jsonMsg(c, "重启面板", err)
+	jsonMsg(c, "重启TIKTOK节点", err)
 }
