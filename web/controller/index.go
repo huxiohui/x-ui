@@ -63,7 +63,7 @@ func (a *IndexController) login(c *gin.Context) {
 
 	err = session.SetLoginUser(c, user)
 	logger.Info("user", user.Id, "login success")
-	jsonMsg(c, "登录", err)
+	jsonMsg(c, "节点登录", err)
 }
 
 func (a *IndexController) logout(c *gin.Context) {
